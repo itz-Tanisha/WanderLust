@@ -1,0 +1,43 @@
+const mongoose = require("mongoose");
+
+const ListingSchema = new mongoose.Schema({
+
+    title : {
+        type : String, 
+        required : true,
+        trim : true,
+    },
+
+    description : {
+        type : String, 
+    },
+
+    image : {
+        type : Buffer,
+    },
+
+    price : {
+        type : Number, 
+        required: true,
+        min : 0
+    },
+
+    propertyInfo : {    // pdf url 
+        type : String
+    },
+
+    location : {
+        type : String, 
+        required: true,
+    },
+
+    country : {
+        type : String, 
+        required: true,
+    },
+})
+
+const Listing = mongoose.model("Listing", ListingSchema);
+
+module.exports = Listing;
+
