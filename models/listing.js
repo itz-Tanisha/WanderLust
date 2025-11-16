@@ -13,7 +13,8 @@ const ListingSchema = new mongoose.Schema({
     },
 
     image : {
-        type : Buffer,
+        url : String,
+        fileName : String
     },
 
     price : {
@@ -35,6 +36,11 @@ const ListingSchema = new mongoose.Schema({
         type : String, 
         required: true,
     },
+
+    createdAt : {
+        type : Date,
+        default : Date.now(),
+    }
 })
 
 const Listing = mongoose.model("Listing", ListingSchema);
