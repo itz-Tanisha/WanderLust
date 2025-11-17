@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const method_override = require("method-override");
 
+const ejsMate = require("ejs-mate");
+
 require("dotenv").config();
 
 const PORT = process.env.PORT;
@@ -31,6 +33,9 @@ app.set("views", path.join(__dirname, "/views"));
 
 app.use(method_override("_method"));
 app.use(express.urlencoded({ extended: true }));
+
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
 
 
 // B : Mongoose Connection 
