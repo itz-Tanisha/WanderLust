@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind:css": "postcss public/css/styles.css -o public/css/styles.css"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +20,11 @@
     "mongoose": "^8.19.4",
     "multer": "^2.0.2",
     "streamifier": "^0.1.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^3.4.18"
   }
 }
