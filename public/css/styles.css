@@ -1,3 +1,41 @@
 body {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+/* NAVBAR */
+
+nav {
+  padding: 24px 32px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px -2px slategray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  font-weight: 400;
+  color: #222;
+  position: sticky;
+  top: 0;
+
+
+
+  @media (max-width: 640px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    font-size: 18px;
+
+  }
+
+  @media (min-width: 1025px) {
+    font-size: 18px;
+  }
+
+}
+
+nav > a:hover {
+  color: #FF385C;
+  cursor: pointer;
+}
+
