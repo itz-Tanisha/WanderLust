@@ -20,7 +20,7 @@ nav {
 
 
   @media (max-width: 640px) {
-    font-size: 16px;
+
   }
 
   @media (min-width: 641px) and (max-width: 1024px) {
@@ -34,8 +34,37 @@ nav {
 
 }
 
-nav > a:hover {
+.nav-links {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+nav>a:hover {
   color: #FF385C;
   cursor: pointer;
 }
 
+footer {
+  padding: 24px 7vw 24px 5vw; 
+  background-color: #f7f7f7;
+  border-top: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #222;
+  font-size: 14px;
+  gap: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.f-info-terms > a:hover {
+  text-decoration: underline;
+}
+
+.f-info-link{
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #222;
+}
