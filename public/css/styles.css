@@ -88,6 +88,8 @@ footer {
   margin-left: auto;
   margin-right: auto;
   max-width: 90vw;
+  display: flex;
+  justify-content: center;
 }
 
 .flex-container {
@@ -105,7 +107,7 @@ footer {
   width: 100%;
   justify-content: center;
   max-width: 80vw;
-/*   
+  /*   
   @media (width >=40rem) {
     max-width: calc(3 * 18rem + 32px); 
   }
@@ -126,7 +128,7 @@ footer {
     max-width: calc(3 * 18rem + 32px); 
   } */
 
-  
+
 }
 
 .heading {
@@ -181,3 +183,127 @@ listing ko center
 
 
 */
+
+/* NEW LISTING AND EDIT LISTINGS STYLES */
+
+.form-container {
+  background-color: #f7f7f7;
+  padding: 32px;
+  display: flex;
+  justify-items: center;
+  height: 100%;
+}
+
+
+.listing-form {
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  height: max-content;
+  border-radius: 12px;
+  width: 80vw;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-heading {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 150%;
+}
+
+.form-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+.form-input {
+  border: 1px solid #ebebeb;
+  border-radius:10px;
+  padding: 8px 12px;
+  background-color: #f7f7f7;
+  font-size: 14px;
+}
+.form-input:focus,
+.form-input:active {
+  border-color: #FF385C; /* Primary color */
+  box-shadow: 0 0 4px rgba(255, 56, 92, 0.6); /* Soft pink glow */
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.divider {
+  display: flex;
+  align-items: center;
+
+}
+
+.divider>hr {
+  color: #ededed;
+  width: 100%;
+
+}
+
+.divider-text {
+  font-size: 12px;
+  color: #737373;
+  padding: 0px 8px;
+}
+
+.submit-button {
+  font-size: 14px;
+  color: #fff;
+  background-color: #FF385C;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  flex: 3;
+  cursor: pointer;
+}
+
+.discard-button {
+  font-size: 14px;
+  color: #222;
+  background-color: #f7f7ff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  border: 1px solid #ebebeb;
+  flex: 1;
+  cursor: pointer;
+}
+
+.submit-button:hover,
+.submit-button:focus {
+  background-color: #e73052;
+  /* Slightly darker red */
+  color: #fff;
+  outline: none;
+}
+
+.discard-button:hover,
+.discard-button:focus {
+  background-color: rgb(207, 207, 207);
+  /* Slightly darker light blue */
+  border-color: #cccccc;
+  color: #222;
+  outline: none;
+}

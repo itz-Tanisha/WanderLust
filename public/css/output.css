@@ -221,6 +221,12 @@
   .gap-3 {
     gap: calc(var(--spacing) * 3);
   }
+  .gap-\[8pc\] {
+    gap: 8pc;
+  }
+  .gap-\[8px\] {
+    gap: 8px;
+  }
   .gap-\[12px\] {
     gap: 12px;
   }
@@ -234,6 +240,16 @@
   }
   .text-\[1\.2rem\] {
     font-size: 1.2rem;
+  }
+  .text-\[16px\] {
+    font-size: 16px;
+  }
+  .text-\[20px\] {
+    font-size: 20px;
+  }
+  .font-\[16px\] {
+    --tw-font-weight: 16px;
+    font-weight: 16px;
   }
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
