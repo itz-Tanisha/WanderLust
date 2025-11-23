@@ -1,21 +1,36 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
+    <body>
+        <div class="home-container">
 
-        <form method="get" action="/listings/new">
-            <button>Add a new Listing </button>
-        </form>
-        <br>
+            <div class="flex-container">
 
-        <% for (let item of listings) { %>
-            
-            <ul>
-                <li>
-                    <a href="/listings/<%= item._id %>">
-                        <%= item.title %>
-                    </a>
-                </li>
-            </ul>
-        <% } %>
-    
-</body>
+                <h3 class="heading flex-basis-1">All Listings </h1>
+
+                    <div class="listings-container">
+
+                        <% for (let item of listings) { %>
+
+                            <a href="/listings/<%= item._id %>">
+
+                                <div key="<%= item._id %>" class="card-container ">
+
+                                    <img src="<%= item.image.url %>" class="card-img" />
+
+                                    <div>
+                                        <div class="card-heading">
+                                            <%= item.title %>
+                                        </div>
+                                        <div class="card-text">
+                                            &#8377; <%= item.price.toLocaleString("en-In") %> / night
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                            <% } %>
+                    </div>
+
+            </div>
+        </div>
+    </body>

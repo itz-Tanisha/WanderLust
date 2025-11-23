@@ -1,5 +1,10 @@
 body {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 /* NAVBAR */
@@ -19,9 +24,7 @@ nav {
 
 
 
-  @media (max-width: 640px) {
-
-  }
+  @media (max-width: 640px) {}
 
   @media (min-width: 641px) and (max-width: 1024px) {
     font-size: 18px;
@@ -44,12 +47,14 @@ nav>a:hover {
   cursor: pointer;
 }
 
+/* FOOTER */
+
 footer {
-  padding: 24px 7vw 24px 5vw; 
+  padding: 24px 7vw 24px 5vw;
   background-color: #f7f7f7;
   border-top: 1px solid #ebebeb;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   color: #222;
@@ -57,14 +62,122 @@ footer {
   gap: 10px;
   text-align: center;
   width: 100%;
+
+  @media (width >=40rem
+
+    /* 768px */
+  ) {
+    flex-direction: row;
+  }
 }
 
-.f-info-terms > a:hover {
+.f-info-terms>a:hover {
   text-decoration: underline;
 }
 
-.f-info-link{
+.f-info-link {
   font-size: 1.2rem;
   cursor: pointer;
   color: #222;
 }
+
+/* HOME */
+
+.home-container {
+  padding: 28px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: fit-content;
+  align-items: flex-start;
+}
+
+.listings-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+  max-width: 80vw;
+/*   
+  @media (width >=40rem) {
+    max-width: calc(3 * 18rem + 32px); 
+  }
+
+  @media (width >=48rem) {
+   max-width: calc(3 * 18rem + 32px); 
+  }
+
+  @media (width >=64rem) {
+    max-width: calc(3 * 18rem + 32px); 
+  }
+
+  @media (width >=80rem) {
+    max-width: calc(3 * 18rem + 32px); 
+  }
+
+  @media (width >=96rem) {
+    max-width: calc(3 * 18rem + 32px); 
+  } */
+
+  
+}
+
+.heading {
+  font-size: 18px;
+  color: #222;
+  font-weight: 600;
+}
+
+
+.card-container {
+  height: 20rem;
+  width: 18rem;
+  cursor: pointer;
+}
+
+.card-img {
+  width: stretch;
+  height: 16rem;
+  border-radius: 1rem;
+  margin-bottom: 10px;
+}
+
+.card-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.card-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6a6a6a;
+}
+
+.card-container:hover .card-heading {
+  text-decoration: underline;
+}
+
+.card-container:hover img {
+  box-shadow: 2px 4px 10px #222;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.card-container img {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/*
+
+
+listing ko center 
+
+
+*/
