@@ -1,34 +1,71 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
+    <body>
+        <div class="form-container">
 
-    <h1>Edit Listing :  <%= _id %></h1>
+            <form method="post" action="/listings/<%= _id %>/edit?_method=PUT" enctype="multipart/form-data"
+                class="listing-form">
 
-    <form method="post" action="/listings/<%= _id %>/edit?_method=PUT" enctype="multipart/form-data">
+                <h1 class="form-heading">Edit Property Details</h1>
 
-        <input type="text" placeholder="Enter title" name="title" value="<%= title %>" /> <br><br>
+                <div class="form-input-container">
+                    <label for="title" class="form-label">Title</label>
+                    <input id="title" type="text" placeholder="Enter title" name="title" value="<%= title %>" required
+                        class="form-input" />
+                </div>
 
-        <textarea placeholder="Enter description" name="description" rows="10" cols="30"><%= description %></textarea> <br><br>
+                <div class="form-input-container">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" placeholder="Describe your property in detail" name="description"
+                        rows="5" class="form-input"><%= description %></textarea>
+                </div>
 
-        <input placeholder="Enter price" name="price" type="number" value="<%= price %>" /> <br><br>
+                <div class="form-input-container w-full">
+                    <label for="price" class="form-label">Price (per night)</label>
+                   
+                        
+                        <input id="price" placeholder="Enter price" name="price" type="number" value="<%= price %>"
+                            min="0" required class="form-input " />
 
-        <input type="text" placeholder="Enter location" name="location" value="<%= location %>" /> <br><br>
+                </div>
 
-        <input type="text" placeholder="Enter country" name="country" value="<%= country %>" />  <br><br>
+                <div class="form-input-container">
+                    <label for="location" class="form-label">Location</label>
+                    <input id="location" type="text" placeholder="City or area" name="location" value="<%= location %>"
+                        class="form-input" />
+                </div>
 
-        <h3> Edit Image </h3>
-        <input type="file" name="imageFile"> &nbsp;
-        <input type="url" name="imageUrl" placeholder="Enter image url">
-        
-        <br>
-        <br>
+                <div class="form-input-container">
+                    <label for="country" class="form-label">Country</label>
+                    <input id="country" type="text" placeholder="Country" name="country" value="<%= country %>"
+                        class="form-input" />
+                </div>
 
-        <button type="submit">Edit </button>
+                <div class="form-input-container">
+                    <label for="imageUrl" class="form-label">Edit Image</label>
+                    <input type="file" name="imageFile" class="form-input">
 
-        <br><br>
-        <img src="<%= image.url %>" width="500px" />
+                    <div class="divider">
+                        <hr>
+                        <span class="divider-text">OR</span>
+                        <hr>
+                    </div>
 
-    </form>
+                    <input type="url" id="imageUrl" name="imageUrl" placeholder="Enter image url" class="form-input">
+                </div>
 
-</body>
 
+                <div class="form-input-container">
+                    <label class="form-label">Current Image</label>
+                    <img src="<%= image.url %>" width="500px" class="preview-image" />
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="submit-button">Save Changes</button>
+                    <a href="/listings/<%= _id %>" class="discard-button"
+                        style="text-decoration:none; text-align: center;">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </body>
