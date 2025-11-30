@@ -1,23 +1,58 @@
 <% layout("/layouts/boilerplate") %>
 
-<body> 
-   <p><%= title %></p>
-   <p><%= description %></p>
-   <p> &#8377; <%= price.toLocaleString("en-In") %></p>
-    <p><%= location %></p>
-   <p><%= country %></p>
-  
+    <body class="listing-info">
+        <div class="listing-info-container">
+            <div class="listing-info-img">
+                <img src="<%= image.url %>" style="border-radius: 12px;"/>
+            </div>
+            <div class="listing-info-content ">
+                <div class="listing-info-text">
+                    <p class="listing-info-heading">
+                        <%= title %>
+                    </p>
+
+                    <div class="flex items-center gap-[8px] listing-info-location-text">
+                        <i class="fa-solid fa-location-dot" style="color: #737373;"></i>
+                        <span>
+                            <span>
+                                <%= location %>,
+                            </span>
+                            <span>
+                                <%= country %>
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="listing-info-desc ">Description</div>
+
+                    <p class="listing-info-desc-text">
+                        <%= description %>
+                    </p>
 
 
-    <form action="/listings/<%= _id %>/edit" method="get">
-        <button>Edit</button>
-    </form> <br>
-    
-    <form action="/listings/<%= _id %>?_method=DELETE" method="post">
-        <button> Delete </button>
-    </form> <br>
+                </div>
+                <div class="listing-info-right">
+                    <div>
+                        <span class="listing-info-right-price"> &#8377; <%= price.toLocaleString("en-In") %></span>
+                        <span class="listing-info-right-price-text">/night</span>
+                        <hr style="color: hsl(0 0% 89.8%); margin-bottom: 10px; margin-top: 10px;">
+                    </div>
 
-   <img src="<%= image.url %>" width="500px"/>
+                    
 
- 
-</body>
+                    <form action="/listings/<%= _id %>/edit" method="get">
+                        <button class="submit-button" style="width: 100%;">Edit</button>
+                    </form>
+
+                    <form action="/listings/<%= _id %>?_method=DELETE" method="post">
+                        <button class="discard-button" style="width: 100%;"> Delete </button>
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </body>
