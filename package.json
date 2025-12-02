@@ -18,6 +18,7 @@
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
+    "jquery-validation": "^1.21.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.19.4",
     "multer": "^2.0.2",

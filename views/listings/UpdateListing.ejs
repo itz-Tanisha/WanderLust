@@ -1,10 +1,10 @@
 <% layout("/layouts/boilerplate") %>
 
-    <body>
+    <main>
         <div class="form-container">
 
             <form method="post" action="/listings/<%= _id %>/edit?_method=PUT" enctype="multipart/form-data"
-                class="listing-form">
+                class="listing-form"  id="listing-form" novalidate>
 
                 <h1 class="form-heading">Edit Property Details</h1>
 
@@ -43,7 +43,7 @@
 
                 <div class="form-input-container">
                     <label for="imageUrl" class="form-label">Edit Image</label>
-                    <input type="file" name="imageFile" class="form-input">
+                    <input type="file" name="imageFile" class="form-input"  id="imageFile">
 
                     <div class="divider">
                         <hr>
@@ -51,7 +51,7 @@
                         <hr>
                     </div>
 
-                    <input type="url" id="imageUrl" name="imageUrl" placeholder="Enter image url" class="form-input">
+                    <input type="url" id="imageUrl" name="imageUrl" placeholder="Enter image url" class="form-input" value="<%= image.url %>">
                 </div>
 
 
@@ -68,4 +68,4 @@
 
             </form>
         </div>
-    </body>
+    </main>

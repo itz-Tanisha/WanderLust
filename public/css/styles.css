@@ -326,7 +326,7 @@ listing ko center
   display: flex;
   flex-direction: column;
   gap: 24px;
- 
+
 
 
   @media (width >=40rem) {
@@ -338,17 +338,17 @@ listing ko center
   }
 
   @media (width >=64rem) {
-     width: max-content;
+    width: max-content;
     max-width: 70vw;
   }
 
   @media (width >=80rem) {
-     width: max-content;
+    width: max-content;
     max-width: 60vw;
   }
 
   @media (width >=96rem) {
-     width: max-content;
+    width: max-content;
     max-width: 60vw;
   }
 
@@ -375,6 +375,7 @@ listing ko center
   gap: 1.5rem;
   flex-direction: column;
   justify-content: space-between;
+
   @media (width >=64rem) {
     flex-direction: row;
   }
@@ -417,7 +418,7 @@ listing ko center
   margin-top: 4px;
 }
 
-.listing-info-right{
+.listing-info-right {
   background-color: #fff;
   padding: 24px;
   border-radius: 12px;
@@ -425,7 +426,7 @@ listing ko center
   min-width: max-content;
   display: flex;
   flex-direction: column;
-  gap:12px;
+  gap: 12px;
   min-width: 300px;
 
 }
@@ -436,7 +437,14 @@ listing ko center
   color: #222;
 }
 
-.listing-info-right-price-text{
+.listing-info-right-price-text {
   font-size: 16px;
   color: #737373;
+}
+
+label.error {
+  color: #FF385C;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
 }
