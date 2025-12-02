@@ -19,6 +19,8 @@ const upload = multer({ storage : multer.memoryStorage()});
 
 const { uploadToCloudinary } = require("./cloudinary.js");
 
+const CustomExpressError = require("./utils/ExpressError.js")
+
 // A : Express Setup 
 
 const app = express();
@@ -80,22 +82,10 @@ const Listing1 = new Listing({
 
 app.get("/listings", async (req, res) => {
 
+    const listings = await Listing.find({});
 
-    try {
-        const listings = await Listing.find({});
+    res.render("listings/HomePage.ejs", { listings: listings.reverse() });
 
-        res.render("listings/HomePage.ejs", { listings : listings.reverse() });
-
-    }
-    catch (err) {
-
-        res.status(500).json({
-            success: false,
-            msg: "Internal Server Error",
-            error: err.message
-        })
-
-    }
 })
 
 
@@ -110,39 +100,28 @@ app.get("/listings/new", (req, res) => { // express matches /new as /:id ie anyt
 
 app.post("/listings", upload.single("imageFile"), async (req, res) => {
 
-    const { title, description, price, location, country, imageUrl} = req.body;
+    const { title, description, price, location, country, imageUrl } = req.body;
 
     let finalImageUrl = imageUrl;
 
     // If user uploads file upload it to cloudinary 
 
-    if(req.file){
+    if (req.file) {
         // const result = await uploadToCloudinary(req.file.buffer);
         // finalImageUrl = result.secure_url;
         finalImageUrl = "https://res.cloudinary.com/dymt5cvoc/image/upload/v1763280098/wanderlust/s1wziutvubnquwgp0qus.jpg"
     }
 
-    try {
-        
-        const newListing = await Listing.insertOne({
-            title, description, price, location, country,
-            image : {
-                url : finalImageUrl
-            }
-        });
 
-        res.redirect("listings");
+    const newListing = await Listing.insertOne({
+        title, description, price, location, country,
+        image: {
+            url: finalImageUrl
+        }
+    });
 
-    }
-    catch (err) {
+    res.redirect("listings");
 
-        res.status(500).json({
-            success: false,
-            msg: "Internal Server Error",
-            error: err.message
-        })
-
-    }
 })
 
 // SHOW ROUTE 
@@ -153,7 +132,7 @@ app.get("/listings/:id", async (req, res) => {
 
     const data = await Listing.findById(id);
 
-    res.render("listings/ListingInfo.ejs", data.toObject() ); // Its a document not object
+    res.render("listings/ListingInfo.ejs", data.toObject()); // Its a document not object
 })
 
 
@@ -171,20 +150,20 @@ app.get("/listings/:id/edit", async (req, res) => {
 
 
 
-app.put("/listings/:id/edit",  upload.single("imageFile"), async (req, res) => {
+app.put("/listings/:id/edit", upload.single("imageFile"), async (req, res) => {
 
     const { id } = req.params;
     const data = req.body;
 
 
-    if(data?.imageUrl.trim()){
-        
+    if (data?.imageUrl.trim()) {
+
         data.image = {
-            url : data.imageUrl
+            url: data.imageUrl
         }
 
-    } 
-    else if(req.file){
+    }
+    else if (req.file) {
         // const result = await uploadToCloudinary(req.file.buffer);
         // data.image = {
         //     url : result.secure_url;
@@ -194,35 +173,51 @@ app.put("/listings/:id/edit",  upload.single("imageFile"), async (req, res) => {
     delete data.imageUrl;
 
 
-    try {
+    const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
 
-        const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
-     
-        res.redirect(`/listings/${id}`);
+    res.redirect(`/listings/${id}`);
 
-    }
-    catch (err) {
-
-        res.status(500).json({
-            success: false,
-            msg: "Internal Server Error",
-            error: err.message
-        })
-
-    }
 })
 
 
 
 // IV : DELETE ROUTE 
 
-app.delete("/listings/:id", async(req, res) => {
+app.delete("/listings/:id", async (req, res) => {
 
     const { id } = req.params;
 
     const deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
 
     res.redirect("/listings")
 
+})
+
+
+// V : PAGE NOT FOUND AS ERROR AND NOT MIDDLEWARE
+
+app.all("/*any", (req, res) => {
+    
+    throw new CustomExpressError(404, "Page NOT Found !");
+
+})
+
+
+
+// SINCE newer forwards async errors to err middleware we ll just define our middleware 
+app.use((err, req, res, next) => {
+
+    const { status = 500, message = "Internal Server Error"} = err;
+    console.log(err);
+
+    res.status(status).json({
+        success: false,
+        error: err.message
+    })
+})
+
+
+app.use((req, res) => {
+
+    res.status(404).send("Page Not Found !")
 })
