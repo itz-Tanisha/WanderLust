@@ -19,7 +19,9 @@ const upload = multer({ storage : multer.memoryStorage()});
 
 const { uploadToCloudinary } = require("./cloudinary.js");
 
-const CustomExpressError = require("./utils/ExpressError.js")
+const CustomExpressError = require("./utils/ExpressError.js");
+
+const listingSchemaValidator = require("./utils/Schema.js");
 
 // A : Express Setup 
 
@@ -75,6 +77,19 @@ const Listing1 = new Listing({
 //     .catch((err) => console.log(err))
 
 
+// SCHEMA VALIDATION MIDDLEWARE 
+
+const validateBody = (req, res, next) => {
+
+    const { error } = listingSchemaValidator.validate(req.body);
+
+    if(error){
+        throw new CustomExpressError(400, error.message)
+    }
+
+    next();
+}
+
 // ROUTES 
 
 
@@ -98,7 +113,7 @@ app.get("/listings/new", (req, res) => { // express matches /new as /:id ie anyt
 })
 
 
-app.post("/listings", upload.single("imageFile"), async (req, res) => {
+app.post("/listings",  upload.single("imageFile"), validateBody, async (req, res) => {
 
     const { title, description, price, location, country, imageUrl } = req.body;
 
@@ -150,7 +165,7 @@ app.get("/listings/:id/edit", async (req, res) => {
 
 
 
-app.put("/listings/:id/edit", upload.single("imageFile"), async (req, res) => {
+app.put("/listings/:id/edit", upload.single("imageFile"), validateBody, async (req, res) => {
 
     const { id } = req.params;
     const data = req.body;
@@ -196,11 +211,11 @@ app.delete("/listings/:id", async (req, res) => {
 
 // V : PAGE NOT FOUND AS ERROR AND NOT MIDDLEWARE
 
-app.all("/*any", (req, res) => {
+// app.all("/*any", (req, res) => {
     
-    throw new CustomExpressError(404, "Page NOT Found !");
+//     throw new CustomExpressError(404, "Page NOT Found !");
 
-})
+// })
 
 
 
@@ -208,16 +223,18 @@ app.all("/*any", (req, res) => {
 app.use((err, req, res, next) => {
 
     const { status = 500, message = "Internal Server Error"} = err;
-    console.log(err);
 
     res.status(status).json({
         success: false,
         error: err.message
     })
+
+    // res.status(status).render("error.ejs", { message })
 })
 
 
 app.use((req, res) => {
 
-    res.status(404).send("Page Not Found !")
-})
+    res.status(404).render("NotFound.ejs");
+
+})  

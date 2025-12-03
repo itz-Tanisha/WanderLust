@@ -9,6 +9,7 @@ const ListingSchema = new mongoose.Schema({
     },
 
     description : {
+        required : true,
         type : String, 
     },
 

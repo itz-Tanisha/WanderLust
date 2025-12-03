@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devstart": "nodemon app.js",
-    "tailwind:css" : "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch"
+    "tailwind:css": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,7 @@
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
     "express": "^5.1.0",
+    "joi": "^18.0.2",
     "jquery-validation": "^1.21.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.19.4",
