@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const reviewSchema = mongoose.Schema({
 
     comment: {
-        type: string,
+        type: String,
     },
 
     rating: {
-        type: number,
+        type: Number,
         min: 1,
         max: 5
     },

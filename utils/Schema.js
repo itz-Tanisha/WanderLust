@@ -10,4 +10,14 @@ const listingSchemaValidator = Joi.object({
     
 })
 
-module.exports = listingSchemaValidator;
+const reviewSchemaValidator = Joi.object({
+
+    comment : Joi.string().required(),
+    rating : Joi.number().required().min(1).max(5)
+
+})
+
+module.exports = {
+    listingSchemaValidator,
+    reviewSchemaValidator
+};
