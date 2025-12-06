@@ -1,3 +1,5 @@
+// New Listing and update listing validation
+
 $(function () {
 
     $.validator.addMethod("requireOneImage", function (value, element) {
@@ -58,6 +60,89 @@ $(function () {
 
     $("#imageFile, #imageUrl").on("change keyup", function () {
         $("#imageUrl").valid();
+    });
+
+});
+
+// STARS FUNCTIONALITY JS
+
+const stars = document.querySelectorAll('#starRating i');
+const ratingInput = document.getElementById('ratingInput');
+
+let selectedRating = 0;
+
+// fill stars up to given number
+function fillStars(rating) {
+    stars.forEach(star => {
+        const value = parseInt(star.dataset.value);
+        if (value <= rating) {
+            star.classList.remove('fa-regular');
+            star.classList.add('fa-solid');
+        } else {
+            star.classList.remove('fa-solid');
+            star.classList.add('fa-regular');
+        }
+    });
+}
+
+// Hover effect
+stars.forEach(star => {
+    star.addEventListener('mouseover', () => {
+        const hoverValue = parseInt(star.dataset.value);
+        fillStars(hoverValue);
+    });
+
+    // Reset on mouse leave → back to selected state
+    star.addEventListener('mouseleave', () => {
+        fillStars(selectedRating);
+    });
+
+    // On click → final selected rating
+    star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.value);
+        ratingInput.value = selectedRating; // set hidden input
+        fillStars(selectedRating);
+    });
+});
+
+
+// Review form validation 
+
+$(function () {
+
+    $.validator.addMethod("validRating", function (value, element) {
+        return parseInt(value) > 0;
+    }, "Please select a rating.");
+
+    $("#review-form").validate({
+        ignore: [],  // IMPORTANT: Validate hidden fields too
+        rules: {
+            rating: { validRating: true },
+            comment: { required: true, minlength: 5 }
+        },
+
+        messages: {
+            rating: {
+                validRating: "Please select a star rating."
+            },
+            comment: {
+                required: "Please write your review.",
+                minlength: "Your review must be at least 5 characters long."
+            }
+        },
+
+        errorPlacement: function (error, element) {
+            if (element.attr("name") === "rating") {
+                error.insertAfter("#starRating");
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
+    // Trigger rating validation whenever a star is clicked
+    $("#starRating i").on("click", function () {
+        $("#ratingInput").valid();  // triggers rating validation
     });
 
 });

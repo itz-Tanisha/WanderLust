@@ -239,7 +239,9 @@ listing ko center
   padding: 8px 12px;
   background-color: #f7f7f7;
   font-size: 14px;
+  resize: none;
 }
+
 
 .form-input:focus,
 .form-input:active {
@@ -285,6 +287,10 @@ listing ko center
   font-weight: 500;
   flex: 3;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .discard-button {
@@ -428,6 +434,7 @@ listing ko center
   flex-direction: column;
   gap: 12px;
   min-width: 300px;
+  height: max-content;
 
 }
 
@@ -498,10 +505,53 @@ label.error {
   cursor: pointer;
   margin: 0 auto;
   font-weight: 400;
-  transition: 0.3s background-color ease , 0.3s color ease;
+  transition: 0.3s background-color ease, 0.3s color ease;
 }
 
 .not-found-button:hover {
   color: #fff;
   background-color: #FF3B58;
+}
+
+
+/* Review Form */
+.review-form-container {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid hsl(0 0% 89.8%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-form-heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.review-form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #737373;
+}
+
+
+/* Stars Container */
+.stars-container {
+  display: flex;
+  gap: 6px;
+}
+
+.stars-container i {
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  color: #ff385c;
+}
+
+.stars-container i:hover {
+  transform: scale(1.1);
+  color: #ff385c;
 }

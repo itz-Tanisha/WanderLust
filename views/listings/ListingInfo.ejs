@@ -3,7 +3,7 @@
     <body class="listing-info">
         <div class="listing-info-container">
             <div class="listing-info-img">
-                <img src="<%= image.url %>" style="border-radius: 12px;"/>
+                <img src="<%= image.url %>" style="border-radius: 12px;" />
             </div>
             <div class="listing-info-content ">
                 <div class="listing-info-text">
@@ -28,6 +28,13 @@
                     <p class="listing-info-desc-text">
                         <%= description %>
                     </p>
+
+                    <div>
+                        <h3 class="review-form-heading mt-6 mb-4">Reviews</h3>
+                        <p> </p>
+                    </div>
+
+                    <%- include("../includes/Reviews.ejs") %>
 
 
                 </div>

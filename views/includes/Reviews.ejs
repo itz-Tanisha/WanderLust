@@ -1,0 +1,36 @@
+<section>
+    <div>
+        <form class="review-form-container " id="review-form" novalidate >
+            <h3 class="review-form-heading">Write a Review</h3>
+
+            <div>
+                <div class="form-input-container ">
+                    <label for="rating" class="review-form-label ">Your Rating</label>
+
+                    <div class="stars-container" id="starRating">
+                        <i class="fa-regular fa-star" data-value="1"></i>
+                        <i class="fa-regular fa-star" data-value="2"></i>
+                        <i class="fa-regular fa-star" data-value="3"></i>
+                        <i class="fa-regular fa-star" data-value="4"></i>
+                        <i class="fa-regular fa-star" data-value="5"></i>
+                    </div>
+
+                    <!-- Hidden input that gets submitted with form -->
+                    <input type="hidden" name="rating" id="ratingInput" value="0" required>
+
+                </div>
+
+                <div class="form-input-container mt-4">
+                    <label for="comment" class="review-form-label ">Your Review</label>
+                    <textarea rows="5" placeholder="Share your experience with this stay..." class="form-input" required
+                        name="comment" id="comment"></textarea>
+                </div>
+            </div>
+
+            <button class="submit-button mt-2" style="width: 100%;">
+                <i class="fa-regular fa-paper-plane"></i>
+                Submit Review
+            </button>
+        </form>
+    </div>
+</section>
