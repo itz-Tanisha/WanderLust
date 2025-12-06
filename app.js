@@ -11,7 +11,8 @@ require("dotenv").config();
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
-const Listing = require(path.join(__dirname, "/models/listing.js"))
+const Listing = require(path.join(__dirname, "/models/listing.js"));
+const Review = require(path.join(__dirname, "/models/review.js"))
 
 const multer = require("multer"); // This is a function 
 
@@ -21,7 +22,7 @@ const { uploadToCloudinary } = require("./cloudinary.js");
 
 const CustomExpressError = require("./utils/ExpressError.js");
 
-const listingSchemaValidator = require("./utils/Schema.js");
+const { listingSchemaValidator, reviewSchemaValidator } = require("./utils/Schema.js");
 
 // A : Express Setup 
 
@@ -82,6 +83,8 @@ const Listing1 = new Listing({
 
 const validateBody = (req, res, next) => {
 
+    if(!req.body)  throw new CustomExpressError(400, `Please send required fields `)
+
     const { error } = listingSchemaValidator.validate(req.body);
 
     if(error){
@@ -91,6 +94,19 @@ const validateBody = (req, res, next) => {
     next();
 }
 
+const validateReviews = (req, res, next ) => {
+
+    if(!req.body)  throw new CustomExpressError(400, `Please send required fields `)
+     
+    const { error } = reviewSchemaValidator.validate(req.body);
+
+    if(error){
+
+        throw new CustomExpressError(400, error.message)
+    }
+
+    next();
+}
 // ROUTES 
 
 
@@ -206,6 +222,21 @@ app.delete("/listings/:id", async (req, res) => {
     const deletedListing = await Listing.findByIdAndDelete(id);
 
     res.redirect("/listings")
+
+})
+
+// V : Listings - Post New Review 
+app.post("/listings/:id/reviews", validateReviews, async (req, res) => {
+
+    const { id } = req.params;
+
+    const { comment, rating } = req.body;
+
+    const newReview = await Review.insertOne({ comment, rating });
+
+    const updatedListing = await Listing.findByIdAndUpdate(id, { $push : {reviews : newReview }}, { new : true, runValidators : true});
+
+    res.redirect(`/listings/${id}`)
 
 })
 
