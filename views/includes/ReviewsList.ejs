@@ -1,0 +1,35 @@
+<section class="pt-6">
+    <% for(review of reviews) { %>
+
+        <div class="p-4 flex justify-between bg-white gap-2 rounded-xl mb-4 border-[#E5E5E5]">
+
+            <i>
+                <%= review.comment %>
+            </i>
+
+            <div class="flex items-center gap-6">
+
+                <div class="review-star-container">
+                    
+                    <% const solid=review.rating; const empty=5 - solid; %>
+
+                    <% for(let i=0; i < solid; i++) { %>
+                        <i class="fa-solid fa-star"></i>
+                        <% } %>
+
+                    <% for(let i=0; i < empty; i++) { %>
+                        <i class="fa-regular fa-star"></i>
+                        <% } %>
+
+                </div>
+
+                <form method="post" action="/listings/<%= listingId %>/reviews/<%= review._id %>?_method=DELETE">
+                    <button>
+                        <i class="fa-solid fa-trash cursor-pointer delete-button"></i>
+                    </button>
+                </form>
+
+            </div>
+        </div>
+        <% } %>
+</section>

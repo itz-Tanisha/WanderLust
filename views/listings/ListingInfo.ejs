@@ -29,13 +29,19 @@
                         <%= description %>
                     </p>
 
-                    <div>
-                        <h3 class="review-form-heading mt-6 mb-4">Reviews</h3>
-                        <p> </p>
+                    <div class="flex mt-6 mb-4 items-center justify-between">
+                        <h3 class="review-form-heading ">Reviews</h3>
+                        <div class="all-review-container">
+                            <i class="fa-solid fa-star review-star"></i>
+                            <p class="avg-reviews-text-value ">4</p>
+                            <p class="avg-reviews-text"> ( <%= reviews.length %> reviews ) </p>
+                        </div>
+                        
                     </div>
 
                     <%- include("../includes/Reviews.ejs", { listingId: _id }) %>
 
+                    <%- include("../includes/ReviewsList.ejs", { reviews : reviews.reverse(), listingId : _id }) %>
 
                 </div>
                 <div class="listing-info-right">

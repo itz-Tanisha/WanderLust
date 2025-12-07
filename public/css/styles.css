@@ -519,7 +519,7 @@ label.error {
   background-color: #fff;
   padding: 24px;
   border-radius: 12px;
-  border: 1px solid hsl(0 0% 89.8%);
+  border: 1px solid rgb(229, 229, 229);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -554,4 +554,63 @@ label.error {
 .stars-container i:hover {
   transform: scale(1.1);
   color: #ff385c;
+}
+
+/* Reviews */
+
+.delete-button {
+  font-size: 14px;
+  color: #FF385C;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.discard-button {
+  font-size: 14px;
+  color: #222;
+  background-color: #f7f7ff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  border: 1px solid #ebebeb;
+  flex: 1;
+  cursor: pointer;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+  color: #e73052;
+  /* Slightly darker red */
+  outline: none;
+}
+
+.review-star-container {
+  font-size: 12px;
+  color: #737373;
+}
+
+.all-review-container {
+  padding: 6px 12px;
+  background-color: #FF3D5A1A;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+}
+
+.avg-reviews-text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #737373;
+}
+
+.avg-reviews-text-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+.review-star {
+  color: #FF385C;
+  font-size: 14px;
 }

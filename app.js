@@ -162,7 +162,7 @@ app.get("/listings/:id", async (req, res) => {
 
     let { id } = req.params;
 
-    const data = await Listing.findById(id);
+    const data = await Listing.findById(id).populate("reviews");
 
     res.render("listings/ListingInfo.ejs", data.toObject()); // Its a document not object
 })
@@ -238,6 +238,19 @@ app.post("/listings/:id/reviews", validateReviews, async (req, res) => {
 
     res.redirect(`/listings/${id}`)
 
+})
+
+
+// VI : Delete Reviews Route 
+
+app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
+
+    const { id , reviewId } = req.params;
+
+    const result = await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`)
+    
 })
 
 
