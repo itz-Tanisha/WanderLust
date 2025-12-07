@@ -5,8 +5,8 @@
             <div class="listing-info-img">
                 <img src="<%= image.url %>" style="border-radius: 12px;" />
             </div>
-            <div class="listing-info-content ">
-                <div class="listing-info-text">
+            <div class="listing-info-content " >
+                <div class="listing-info-text flex-1" >
                     <p class="listing-info-heading">
                         <%= title %>
                     </p>
@@ -33,7 +33,13 @@
                         <h3 class="review-form-heading ">Reviews</h3>
                         <div class="all-review-container">
                             <i class="fa-solid fa-star review-star"></i>
-                            <p class="avg-reviews-text-value ">4</p>
+                            <p class="avg-reviews-text-value ">
+                                <% const avg = reviews && reviews.length 
+                                ? ((reviews || []).reduce((sum, item) => sum + item.rating , 0)/ reviews.length ).toFixed(1) 
+                                : null
+                                %>
+                                <%= avg ? avg : "" %>
+                            </p>
                             <p class="avg-reviews-text"> ( <%= reviews.length %> reviews ) </p>
                         </div>
                         

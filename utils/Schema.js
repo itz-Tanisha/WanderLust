@@ -7,7 +7,7 @@ const listingSchemaValidator = Joi.object({
     price :  Joi.number().required().min(0),
     location :  Joi.string().required(),
     country :  Joi.string().required(),
-    
+    imageUrl : Joi.string().empty('').optional(),
 })
 
 const reviewSchemaValidator = Joi.object({
