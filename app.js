@@ -14,11 +14,15 @@ const MONGO_URL = process.env.MONGO_URL;
 const Listing = require(path.join(__dirname, "/models/listing.js"));
 const Review = require(path.join(__dirname, "/models/review.js"))
 
+// Image Upload 
+
 const multer = require("multer"); // This is a function 
 
 const upload = multer({ storage : multer.memoryStorage()});
 
 const { uploadToCloudinary } = require("./cloudinary.js");
+
+// Custom Error and Body Validation
 
 const CustomExpressError = require("./utils/ExpressError.js");
 
@@ -164,6 +168,10 @@ app.get("/listings/:id", async (req, res) => {
 
     const data = await Listing.findById(id).populate("reviews");
 
+    if(!data){
+        throw new CustomExpressError(404, "No Such Listing Exists")
+    }
+
     res.render("listings/ListingInfo.ejs", data.toObject()); // Its a document not object
 })
 
@@ -176,6 +184,10 @@ app.get("/listings/:id/edit", async (req, res) => {
     const { id } = req.params;
 
     const listingData = await Listing.findById(id);
+
+    if(!listingData){
+        throw new CustomExpressError(404, "No Such Listing Exists")
+    }
 
     res.render("listings/UpdateListing.ejs", listingData.toObject())
 })
@@ -266,6 +278,10 @@ app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
 
 // SINCE newer forwards async errors to err middleware we ll just define our middleware 
 app.use((err, req, res, next) => {
+
+    if(err.status === 404){
+        res.status(404).render("NotFound.ejs");
+    }
 
     const { status = 500, message = "Internal Server Error"} = err;
 

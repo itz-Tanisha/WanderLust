@@ -52,14 +52,15 @@ const ListingSchema = new mongoose.Schema({
     ]
 })
 
-ListingSchema.post("findOneAndDelete", (data) => {
+ListingSchema.post("findOneAndDelete", async (data) => {
 
     if(data){
+        
         const allReviewsId = data.reviews;
 
-        Review.deleteMany({ _id : { $in  : allReviewsId }})
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err))
+        const result = await Review.deleteMany({ _id : { $in  : allReviewsId }});
+
+        console.log(result);
     }
 })
 
