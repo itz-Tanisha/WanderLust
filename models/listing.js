@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Review = require("./review")
 
 const ListingSchema = new mongoose.Schema({
 
@@ -56,7 +55,9 @@ ListingSchema.post("findOneAndDelete", async (data) => {
 
     if(data){
         
-        const allReviewsId = data.reviews;
+        const allReviewsId = data.reviews || [];
+
+        const Review = mongoose.model("Review");
 
         const result = await Review.deleteMany({ _id : { $in  : allReviewsId }});
 

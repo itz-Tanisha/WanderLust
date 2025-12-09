@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Listing = require("./listing")
 
 const reviewSchema = mongoose.Schema({
 
@@ -24,6 +23,8 @@ const reviewSchema = mongoose.Schema({
 reviewSchema.post("findOneAndDelete", async (data) => {
 
     if (data._id) {
+
+        const Listing = mongoose.model("Listing");
 
         const res = await Listing.findOneAndUpdate(
             { reviews: { $in: data._id } },
