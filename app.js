@@ -15,6 +15,8 @@ const MONGO_URL = process.env.MONGO_URL;
 const listingsRoutes = require("./routes/listing.js")
 const reviewsRoutes = require("./routes/review.js")
 
+const session = require("express-session");
+
 // A : Express Setup 
 
 const app = express();
@@ -33,6 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const SessionOptions = {
+    secret : process.env.EXPRESS_SESSION_SECRET,
+    resave : false,
+    saveUninitialized : true
+}
+
+app.use(session(SessionOptions));
 
 // B : Mongoose Connection 
 
