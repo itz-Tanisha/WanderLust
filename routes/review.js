@@ -4,6 +4,7 @@ const path = require("path");
 
 const Review = require(path.join("../models/review.js"))
 const Listing = require(path.join("../models/listing.js"));
+const { ReviewToast } = require(path.join("../config/toastMsgs.js"))
 
 // Custom Error and Body Validation
 const CustomExpressError = require("../utils/ExpressError.js");
@@ -39,6 +40,7 @@ router.post("/", validateReviews, async (req, res) => {
 
     const updatedListing = await Listing.findByIdAndUpdate(id, { $push: { reviews: newReview } }, { new: true, runValidators: true });
 
+    req.flash("success", ReviewToast.added);
     res.redirect(`/listings/${id}`)
 
 })
@@ -52,6 +54,7 @@ router.delete("/:reviewId", async (req, res) => {
 
     const result = await Review.findByIdAndDelete(reviewId);
 
+    req.flash("success", ReviewToast.deleted);
     res.redirect(`/listings/${id}`)
 
 })

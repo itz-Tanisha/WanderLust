@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 
 const Listing = require(path.join("../models/listing.js"));
+const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
@@ -75,6 +76,7 @@ router.post("/", upload.single("imageFile"), validateBody, async (req, res) => {
         }
     });
 
+    req.flash("success", ListingToasts.created);
     res.redirect("listings");
 
 })
@@ -88,7 +90,10 @@ router.get("/:id", async (req, res) => {
     const data = await Listing.findById(id).populate("reviews");
 
     if (!data) {
-        throw new CustomExpressError(404, "No Such Listing Exists")
+        req.flash("error", ListingToasts.listingNotFound)
+        res.redirect("/listings");
+        return;
+        // throw new CustomExpressError(404, "No Such Listing Exists")
     }
 
     res.render("listings/ListingInfo.ejs", data.toObject()); // Its a document not object
@@ -105,7 +110,10 @@ router.get("/:id/edit", async (req, res) => {
     const listingData = await Listing.findById(id);
 
     if (!listingData) {
-        throw new CustomExpressError(404, "No Such Listing Exists")
+        req.flash("error", ListingToasts.listingNotFound);
+        res.redirect("/listings");
+        return;
+        // throw new CustomExpressError(404, "No Such Listing Exists")
     }
 
     res.render("listings/UpdateListing.ejs", listingData.toObject())
@@ -138,6 +146,7 @@ router.put("/:id/edit", upload.single("imageFile"), validateBody, async (req, re
 
     const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
 
+    req.flash("success", ListingToasts.updated);
     res.redirect(`/listings/${id}`);
 
 })
@@ -151,6 +160,8 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
 
     const deletedListing = await Listing.findByIdAndDelete(id);
+
+    req.flash("success", ListingToasts.deleted);
 
     res.redirect("/listings")
 
