@@ -16,6 +16,7 @@ const listingsRoutes = require("./routes/listing.js")
 const reviewsRoutes = require("./routes/review.js")
 
 const session = require("express-session");
+const flash = require("connect-flash")
 
 // A : Express Setup 
 
@@ -35,13 +36,30 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+// Session and Flash setup
+
 const SessionOptions = {
     secret : process.env.EXPRESS_SESSION_SECRET,
     resave : false,
-    saveUninitialized : true
+    saveUninitialized : true,
+    cookie : {
+        expires : Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge : 7 * 24 * 60 * 60 * 1000,
+        httpOnly : true, // To prevent cross scripting attacks
+    }
 }
 
 app.use(session(SessionOptions));
+
+app.use(flash()); // middlewares always must be written before routes
+
+app.use((req, res, next) => {
+
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+
+    next();
+})
 
 // B : Mongoose Connection 
 
