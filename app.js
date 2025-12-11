@@ -18,6 +18,10 @@ const reviewsRoutes = require("./routes/review.js")
 const session = require("express-session");
 const flash = require("connect-flash")
 
+const passport = require("passport");
+const LocalStratergy = require("passport-local");
+const User = require("./models/user.js");
+
 // A : Express Setup 
 
 const app = express();
@@ -60,6 +64,17 @@ app.use((req, res, next) => {
 
     next();
 })
+
+// Passport setup 
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStratergy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 // B : Mongoose Connection 
 
