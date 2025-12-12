@@ -1,11 +1,28 @@
-<nav>
-    <div class="flex gap-3 items-center mr-4">
-        <a href="/listings">
-            <i class="fa-regular fa-compass text-3xl text-[#FF385C]"></i>
-        </a>
-        <a href="/listings" class="text-[#FF385C] font-semibold">WanderLust</a>
-    </div>
+<% let _hideNavbarMenu=(typeof hideNavbarMenu !=="undefined" ) ? hideNavbarMenu : false; 
 
-    <a href="/listings" class="nav-links">All Listing</a>
-    <a href="/listings/new" class="nav-links">Add a new Listing</a>
-</nav>
+if(_hideNavbarMenu){ %>
+
+    <nav>
+        <div class="flex gap-3 items-center mr-4">
+            <a href="/login">
+                <i class="fa-regular fa-compass text-3xl text-[#FF385C]"></i>
+            </a>
+            <a href="/login" class="text-[#FF385C] font-semibold">WanderLust</a>
+        </div>
+    </nav>
+
+<% } else { %>
+
+        <nav>
+            <div class="flex gap-3 items-center mr-4">
+                <a href="/listings">
+                    <i class="fa-regular fa-compass text-3xl text-[#FF385C]"></i>
+                </a>
+                <a href="/listings" class="text-[#FF385C] font-semibold">WanderLust</a>
+            </div>
+
+            <a href="/listings" class="nav-links">All Listing</a>
+            <a href="/listings/new" class="nav-links">Add a new Listing</a>
+        </nav>
+
+<% } %>

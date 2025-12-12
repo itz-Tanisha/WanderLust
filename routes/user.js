@@ -27,7 +27,7 @@ const validateSignUpForm = ( req, res, next ) => {
 
 router.get("/signup", (req, res) => {
 
-    res.render("users/signup.ejs");
+    res.render("users/signup.ejs", { hideNavbarMenu : true });
 
 })
 
