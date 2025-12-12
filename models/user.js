@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
    
 })
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose.default);
 
 // Passport local mongose will create a username, password field and generate salted and hashed password to store in database and other methods
 

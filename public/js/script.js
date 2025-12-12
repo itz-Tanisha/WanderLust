@@ -146,3 +146,41 @@ $(function () {
     });
 
 });
+
+// Signup form validation
+
+$(
+    function() {
+
+        $("#signup-form").validate({
+
+            rules : {
+                username : { required : true},
+                email : { required : true, email: true},
+                password : { 
+                    required : true,
+                    minlength: 8,
+                    maxlength: 20,
+                },
+            },
+            messages : {
+                username : {
+                    required : "Username is required !"
+                },
+                email : {
+                    required : "Email is required !",
+                    email: "Please enter a valid email address."
+                },
+                password : {
+                    required : "Password is required !",
+                    minlength: "Password must be at least 8 characters.",
+                    maxlength: "Password must not exceed 20 characters.",
+                }
+            },
+
+            errorPlacement : function( error, element) {
+                error.insertAfter(element);
+            }
+        })
+    }
+)

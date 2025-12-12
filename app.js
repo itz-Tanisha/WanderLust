@@ -14,6 +14,7 @@ const MONGO_URL = process.env.MONGO_URL;
 
 const listingsRoutes = require("./routes/listing.js")
 const reviewsRoutes = require("./routes/review.js")
+const userRoutes = require("./routes/user.js")
 
 const session = require("express-session");
 const flash = require("connect-flash")
@@ -99,6 +100,8 @@ app.get("/", (req, res) => {
 app.use("/listings", listingsRoutes);
 
 app.use("/listings/:id/reviews", reviewsRoutes);
+
+app.use("/", userRoutes );
 
 
 // V : PAGE NOT FOUND AS ERROR AND NOT MIDDLEWARE
