@@ -17,7 +17,12 @@ const ReviewToast = {
     deleted: "“Review removed… like it never happened."
 }
 
+const UserToasts = {
+    registered : "User registered successfully !"
+}
+
 module.exports = {
     ListingToasts, 
-    ReviewToast
+    ReviewToast,
+    UserToasts
 }

@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true,
+        unique: [true, "User with the given email is already registered !"],
         lowercase: true,
         match: [
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/,

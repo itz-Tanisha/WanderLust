@@ -184,3 +184,30 @@ $(
         })
     }
 )
+
+
+// Toast / Flash Msg Script 
+
+document.addEventListener("DOMContentLoaded", () => {
+    
+    const toasts = document.querySelectorAll("[data-toast]");
+
+    toasts.forEach(toast => {
+
+        // Close on clicking "X"
+        const closeBtn = toast.querySelector("[data-close]");
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                toast.classList.add("toast-hide");
+                setTimeout(() => toast.remove(), 350);
+            });
+        }
+
+        setTimeout(() => {
+            toast.classList.add("toast-hide");
+            setTimeout(() => toast.remove(), 350);
+        }, 4000);
+
+    });
+});
