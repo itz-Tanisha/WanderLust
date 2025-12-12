@@ -2,6 +2,7 @@ const express = require("express");
 const { register } = require("module");
 const router = express.Router();
 const path = require("path");
+const passport = require("passport");
 
 const User = require(path.join("../models/user.js"));
 const { UserToasts } = require(path.join("../config/toastMsgs.js"))
@@ -57,5 +58,18 @@ router.get("/login", (req, res) => {
 
     res.render("users/login.ejs", { hideNavbarMenu : true});
 })
+
+router.post("/login", 
+    validateSignUpForm, 
+    passport.authenticate(
+        "local",
+        { failureRedirect : "/login", failureFlash : true}
+    ),
+    (req, res) => {
+
+        req.flash("success", UserToasts.loggedIn);
+        res.redirect("/listings");
+    }
+)
 
 module.exports = router;

@@ -147,6 +147,41 @@ $(function () {
 
 });
 
+
+// Login form validation
+
+$(
+    function() {
+
+        $("#login-form").validate({
+
+            rules : {
+                username : { required : true},
+                email : { required : true, email: true},
+                password : { required : true},
+            },
+            messages : {
+                username : {
+                    required : "Username is required !"
+                },
+                email : {
+                    required : "Email is required !",
+                    email: "Please enter a valid email address."
+                },
+                password : {
+                    required : "Password is required !",
+                }
+            },
+
+            errorPlacement : function( error, element) {
+                error.insertAfter(element);
+            }
+        })
+    }
+)
+
+
+
 // Signup form validation
 
 $(

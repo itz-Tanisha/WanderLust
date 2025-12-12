@@ -18,7 +18,8 @@ const ReviewToast = {
 }
 
 const UserToasts = {
-    registered : "User registered successfully !"
+    registered : "User registered successfully !",
+    loggedIn : "Welcome to Wanderlust ! You are logged in !"
 }
 
 module.exports = {
