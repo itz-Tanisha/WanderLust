@@ -1,13 +1,12 @@
 <% layout("/layouts/boilerplate") %>
 <main class="flex-1 form-container">
-    <form method="post" action="/signup" class="listing-form" novalidate id="signup-form">
+    <form method="post" action="/login" class="listing-form" novalidate id="signup-form">
 
-        <h1 class="form-heading">Sign Up</h1>
+        <h1 class="form-heading">Login</h1>
 
         <div class="form-input-container">
             <label for="username" class="form-label">Username</label>
-            <input id="username" type="text" placeholder="Enter username" name="username" required
-                class="form-input" />
+            <input id="username" type="text" placeholder="Enter username" name="username" required class="form-input" />
         </div>
 
         <div class="form-input-container">
@@ -22,14 +21,13 @@
         </div>
 
         <div class="form-buttons">
-            <button type="submit" class="submit-button">Signup</button>
+            <button type="submit" class="submit-button">Login</button>
             <button type="reset" class="discard-button">Discard</button>
         </div>
 
         <div class="login-info-container">
-            <p class="login-info-text">Already have an account ? </p> &nbsp;&nbsp;
-            <a href="/login" class="login-info-link">Login</a>
+            <p class="login-info-text">Create new account ? </p> &nbsp;&nbsp;
+            <a href="/signup" class="login-info-link">Sign Up</a>
         </div>
-
     </form>
 </main>

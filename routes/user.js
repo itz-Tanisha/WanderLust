@@ -53,6 +53,9 @@ router.post("/signup", validateSignUpForm, async (req, res) => {
 })
 
 
+router.get("/login", (req, res) => {
 
+    res.render("users/login.ejs", { hideNavbarMenu : true});
+})
 
 module.exports = router;
