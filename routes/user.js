@@ -11,13 +11,13 @@ const { UserToasts } = require(path.join("../config/toastMsgs.js"))
 const CustomExpressError = require("../utils/ExpressError.js");
 const { SignInLoginFormValidator } = require("../utils/Schema.js");
 
-const validateSignUpForm = ( req, res, next ) => {
+const validateSignUpForm = (req, res, next) => {
 
-    if(!req.body) throw new CustomExpressError(404, "Please send required fields");
+    if (!req.body) throw new CustomExpressError(404, "Please send required fields");
 
     const { error } = SignInLoginFormValidator.validate(req.body);
 
-    if(error){
+    if (error) {
         throw new CustomExpressError(400, error.message)
     }
 
@@ -26,9 +26,11 @@ const validateSignUpForm = ( req, res, next ) => {
 
 // ROUTES 
 
+
+// I : SIGNUP
 router.get("/signup", (req, res) => {
 
-    res.render("users/signup.ejs", { hideNavbarMenu : true });
+    res.render("users/signup.ejs", { hideNavbarMenu: true });
 
 })
 
@@ -38,14 +40,14 @@ router.post("/signup", validateSignUpForm, async (req, res) => {
 
         let { username, email, password } = req.body;
 
-        const response = await User.register({username, email}, password);
+        const response = await User.register({ username, email }, password);
 
         req.flash("success", UserToasts.registered);
 
         res.redirect("/listings");
 
     }
-    catch(err){
+    catch (err) {
         req.flash("error", err.message);
         console.log(err)
         res.redirect("/signup");
@@ -54,16 +56,17 @@ router.post("/signup", validateSignUpForm, async (req, res) => {
 })
 
 
+// II : LOGIN
 router.get("/login", (req, res) => {
 
-    res.render("users/login.ejs", { hideNavbarMenu : true});
+    res.render("users/login.ejs", { hideNavbarMenu: true });
 })
 
-router.post("/login", 
-    validateSignUpForm, 
+router.post("/login",
+    validateSignUpForm,
     passport.authenticate(
         "local",
-        { failureRedirect : "/login", failureFlash : true}
+        { failureRedirect: "/login", failureFlash: true }
     ),
     (req, res) => {
 
@@ -71,5 +74,23 @@ router.post("/login",
         res.redirect("/listings");
     }
 )
+
+// III : LOGOUT
+
+// removing user data from session storage and its removes session Id as well
+router.get('/logout', (req, res) => {
+
+    req.logOut((err) => {
+        
+        if (err) {
+            next(err);
+            return;
+        }
+
+        req.flash("success", UserToasts.loggedOut);
+        res.redirect("/listings");
+
+    })
+})
 
 module.exports = router;
