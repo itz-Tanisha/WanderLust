@@ -58,14 +58,6 @@ app.use(session(SessionOptions));
 
 app.use(flash()); // middlewares always must be written before routes
 
-app.use((req, res, next) => {
-
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-
-    next();
-})
-
 // Passport setup 
 
 app.use(passport.initialize());
@@ -75,6 +67,16 @@ passport.use(new LocalStratergy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
+app.use((req, res, next) => {
+
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.isUserLoggedIn = req.user;
+
+    next();
+})
 
 
 // B : Mongoose Connection 

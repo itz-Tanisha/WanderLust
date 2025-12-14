@@ -23,6 +23,20 @@ if(_hideNavbarMenu){ %>
 
             <a href="/listings" class="nav-links">All Listing</a>
             <a href="/listings/new" class="nav-links">Add a new Listing</a>
+
+            <div class="navbar-right">
+                <% if(isUserLoggedIn) {%>
+
+                    <a href="/logout" class="nav-links">Logout</a>
+                <% } %>
+                
+                <% if(!isUserLoggedIn) { %>
+
+                    <a href="/signup" class="nav-links">Sign Up</a>
+                    <a href="/login" class="nav-links">Login</a>
+
+                <% } %>
+            </div>
         </nav>
 
 <% } %>
