@@ -42,9 +42,17 @@ router.post("/signup", validateSignUpForm, async (req, res) => {
 
         const response = await User.register({ username, email }, password);
 
-        req.flash("success", UserToasts.registered);
+        req.logIn(response, (err) => {
+            
+            if(err){
+                return next(err);
+            }
 
-        res.redirect("/listings");
+            req.flash("success", UserToasts.registered);
+
+            res.redirect("/listings");
+
+        })
 
     }
     catch (err) {
