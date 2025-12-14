@@ -3,7 +3,8 @@ const router = express.Router();
 const path = require("path");
 
 const Listing = require(path.join("../models/listing.js"));
-const { ListingToasts, ErrorToasts } = require(path.join("../config/toastMsgs.js"))
+const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
+const { isLoggedIn } = require("../middleware.js")
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
@@ -47,26 +48,14 @@ router.get("/", async (req, res) => {
 
 // II : CREATE ROUTE 
 
-router.get("/new", (req, res) => { // express matches /new as /:id ie anything after listing match that
+router.get("/new", isLoggedIn, (req, res) => { // express matches /new as /:id ie anything after listing match that
 
-    if(!req.isAuthenticated()){
-
-        req.flash("error", ErrorToasts.notLoggedIn);
-
-        // If you want the prev url from which req was made 
-        // const redirectUrl = req.get("Referer");
-        // console.log(redirectUrl);
-        // res.redirect(redirectUrl);
-
-        res.redirect("/login")
-        return;
-    }
     res.render("listings/NewListing.ejs");
 
 })
 
 
-router.post("/", upload.single("imageFile"), validateBody, async (req, res) => {
+router.post("/", isLoggedIn, upload.single("imageFile"), validateBody, async (req, res) => {
 
     const { title, description, price, location, country, imageUrl } = req.body;
 
@@ -115,7 +104,7 @@ router.get("/:id", async (req, res) => {
 
 // III : UPDATE ROUTE 
 
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", isLoggedIn, async (req, res) => {
 
     const { id } = req.params;
 
@@ -133,7 +122,7 @@ router.get("/:id/edit", async (req, res) => {
 
 
 
-router.put("/:id/edit", upload.single("imageFile"), validateBody, async (req, res) => {
+router.put("/:id/edit", isLoggedIn, upload.single("imageFile"), validateBody, async (req, res) => {
 
     const { id } = req.params;
     const data = req.body;
@@ -167,7 +156,7 @@ router.put("/:id/edit", upload.single("imageFile"), validateBody, async (req, re
 
 // IV : DELETE ROUTE 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isLoggedIn, async (req, res) => {
 
     const { id } = req.params;
 
