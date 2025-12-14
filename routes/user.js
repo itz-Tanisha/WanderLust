@@ -10,6 +10,7 @@ const { UserToasts } = require(path.join("../config/toastMsgs.js"))
 // Custom error 
 const CustomExpressError = require("../utils/ExpressError.js");
 const { SignInLoginFormValidator } = require("../utils/Schema.js");
+const { saveRedirectUrl } = require("../middleware.js");
 
 const validateSignUpForm = (req, res, next) => {
 
@@ -34,7 +35,7 @@ router.get("/signup", (req, res) => {
 
 })
 
-router.post("/signup", validateSignUpForm, async (req, res) => {
+router.post("/signup", saveRedirectUrl, validateSignUpForm, async (req, res) => {
 
     try {
 
@@ -50,7 +51,8 @@ router.post("/signup", validateSignUpForm, async (req, res) => {
 
             req.flash("success", UserToasts.registered);
 
-            res.redirect("/listings");
+            const redirectUrl = res.locals.redirectUrl || "/listings";
+            res.redirect(redirectUrl);
 
         })
 
@@ -71,6 +73,7 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login",
+    saveRedirectUrl,
     validateSignUpForm,
     passport.authenticate(
         "local",
@@ -79,7 +82,8 @@ router.post("/login",
     (req, res) => {
 
         req.flash("success", UserToasts.loggedIn);
-        res.redirect("/listings");
+        const redirectUrl = res.locals.redirectUrl || "/listings";
+        res.redirect(redirectUrl);
     }
 )
 
