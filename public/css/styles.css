@@ -459,6 +459,25 @@ listing ko center
   color: #737373;
 }
 
+
+.listing-owner-container{
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.listed-by {
+  color: #737373
+
+}
+
+.listed-by-name {
+  color: #222;
+  font-weight: 500;
+}
+
+
 label.error {
   color: #FF385C;
   font-size: 0.85rem;
