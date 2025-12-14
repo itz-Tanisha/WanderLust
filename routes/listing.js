@@ -74,7 +74,8 @@ router.post("/", isLoggedIn, upload.single("imageFile"), validateBody, async (re
         title, description, price, location, country,
         image: {
             url: finalImageUrl
-        }
+        },
+        owner : req.user._id
     });
 
     req.flash("success", ListingToasts.created);
@@ -88,7 +89,7 @@ router.get("/:id", async (req, res) => {
 
     let { id } = req.params;
 
-    const data = await Listing.findById(id).populate("reviews");
+    const data = await Listing.findById(id).populate("reviews").populate("owner");
 
     if (!data) {
         req.flash("error", ListingToasts.listingNotFound)
