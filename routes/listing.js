@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require("path");
 
 const Listing = require(path.join("../models/listing.js"));
-const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
+const { ListingToasts, ErrorToasts } = require(path.join("../config/toastMsgs.js"))
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
@@ -49,6 +49,18 @@ router.get("/", async (req, res) => {
 
 router.get("/new", (req, res) => { // express matches /new as /:id ie anything after listing match that
 
+    if(!req.isAuthenticated()){
+
+        req.flash("error", ErrorToasts.notLoggedIn);
+
+        // If you want the prev url from which req was made 
+        // const redirectUrl = req.get("Referer");
+        // console.log(redirectUrl);
+        // res.redirect(redirectUrl);
+
+        res.redirect("/login")
+        return;
+    }
     res.render("listings/NewListing.ejs");
 
 })

@@ -22,8 +22,13 @@ const UserToasts = {
     loggedIn : "Welcome to Wanderlust ! You are logged in !"
 }
 
+const ErrorToasts = {
+    notLoggedIn : "You must be logged in to create a new listing !"
+}
+
 module.exports = {
     ListingToasts, 
     ReviewToast,
-    UserToasts
+    UserToasts,
+    ErrorToasts
 }
