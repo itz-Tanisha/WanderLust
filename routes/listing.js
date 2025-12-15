@@ -103,7 +103,7 @@ router.get("/:id/edit", isLoggedIn, isListingOwner, async (req, res) => {
 
 
 
-router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateBody, async (req, res) => {
+router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, async (req, res) => {
 
     const { id } = req.params;
     const data = req.body;
