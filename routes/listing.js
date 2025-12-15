@@ -4,7 +4,7 @@ const path = require("path");
 
 const Listing = require(path.join("../models/listing.js"));
 const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
-const { isLoggedIn } = require("../middleware.js")
+const { isLoggedIn, isListingOwner } = require("../middleware.js")
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
@@ -105,7 +105,7 @@ router.get("/:id", async (req, res) => {
 
 // III : UPDATE ROUTE 
 
-router.get("/:id/edit", isLoggedIn, async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isListingOwner, async (req, res) => {
 
     const { id } = req.params;
 
@@ -123,7 +123,7 @@ router.get("/:id/edit", isLoggedIn, async (req, res) => {
 
 
 
-router.put("/:id/edit", isLoggedIn, upload.single("imageFile"), validateBody, async (req, res) => {
+router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateBody, async (req, res) => {
 
     const { id } = req.params;
     const data = req.body;
@@ -157,7 +157,7 @@ router.put("/:id/edit", isLoggedIn, upload.single("imageFile"), validateBody, as
 
 // IV : DELETE ROUTE 
 
-router.delete("/:id", isLoggedIn, async (req, res) => {
+router.delete("/:id", isLoggedIn, isListingOwner, async (req, res) => {
 
     const { id } = req.params;
 

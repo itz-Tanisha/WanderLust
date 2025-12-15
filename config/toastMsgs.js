@@ -9,6 +9,7 @@ const ListingToasts = {
     updated: "Listing updated successfully.",
     deleted: "Listing deleted successfully.",
     // listingNotFound : "No Such Listing Exists",
+    notOwnerToast : "You don't have enough permissions to modify this listing !",
 
 }
 
