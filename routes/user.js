@@ -31,7 +31,7 @@ const validateSignUpForm = (req, res, next) => {
 // I : SIGNUP
 router.get("/signup", (req, res) => {
 
-    req.session.redirectUrl = req.get("Referer");
+    if(!req.session.redirectUrl) req.session.redirectUrl = req.get("Referer");
 
     res.render("users/signup.ejs", { hideNavbarMenu: true });
 
@@ -71,7 +71,7 @@ router.post("/signup", saveRedirectUrl, validateSignUpForm, async (req, res) => 
 // II : LOGIN
 router.get("/login", (req, res) => {
 
-    req.session.redirectUrl = req.get("Referer");
+    if(!req.session.redirectUrl) req.session.redirectUrl = req.get("Referer");
 
     res.render("users/login.ejs", { hideNavbarMenu: true });
 })
