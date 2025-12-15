@@ -4,32 +4,12 @@ const path = require("path");
 
 const Listing = require(path.join("../models/listing.js"));
 const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
-const { isLoggedIn, isListingOwner } = require("../middleware.js")
+const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.js")
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
 const upload = multer({ storage: multer.memoryStorage() });
 const { uploadToCloudinary } = require("../cloudinary.js");
-
-// Custom Error and Validation
-const CustomExpressError = require("../utils/ExpressError.js");
-const { listingSchemaValidator } = require("../utils/Schema.js");
-
-
-// SCHEMA VALIDATION MIDDLEWARE 
-
-const validateBody = (req, res, next) => {
-
-    if (!req.body) throw new CustomExpressError(400, `Please send required fields `)
-
-    const { error } = listingSchemaValidator.validate(req.body);
-
-    if (error) {
-        throw new CustomExpressError(400, error.message)
-    }
-
-    next();
-}
 
 
 // ROUTES 
@@ -55,7 +35,7 @@ router.get("/new", isLoggedIn, (req, res) => { // express matches /new as /:id i
 })
 
 
-router.post("/", isLoggedIn, upload.single("imageFile"), validateBody, async (req, res) => {
+router.post("/", isLoggedIn, upload.single("imageFile"), validateListing, async (req, res) => {
 
     const { title, description, price, location, country, imageUrl } = req.body;
 

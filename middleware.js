@@ -1,6 +1,41 @@
 const { UserToasts, ListingToasts } = require("./config/toastMsgs");
-const Listing = require('./models/listing')
+const Listing = require('./models/listing');
+const CustomExpressError = require("./utils/ExpressError");
+const { listingSchemaValidator, reviewSchemaValidator } = require("./utils/Schema");
 
+// SCHEMA VALIDATION MIDDLEWARE 
+
+module.exports.validateListing = (req, res, next) => {
+
+    if (!req.body) throw new CustomExpressError(400, `Please send required fields `)
+
+    const { error } = listingSchemaValidator.validate(req.body);
+
+    if (error) {
+        throw new CustomExpressError(400, error.message)
+    }
+
+    next();
+}
+
+// SCHEMA VALIDATION MIDDLEWARE 
+
+module.exports.validateReviews = (req, res, next) => {
+
+    if (!req.body) throw new CustomExpressError(400, `Please send required fields `)
+
+    const { error } = reviewSchemaValidator.validate(req.body);
+
+    if (error) {
+
+        throw new CustomExpressError(400, error.message)
+    }
+
+    next();
+}
+
+
+// check if user is logged in to access protected routes 
 module.exports.isLoggedIn = (req, res, next) => {
 
     if (!req.isAuthenticated()) {
@@ -29,6 +64,7 @@ module.exports.saveRedirectUrl = (req, res, next) => {
     next();
 }
 
+// check if user is owner to edit and delete 
 module.exports.isListingOwner = async (req, res, next) => {
 
     const { id } = req.params;
