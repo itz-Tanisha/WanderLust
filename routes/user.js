@@ -31,6 +31,8 @@ const validateSignUpForm = (req, res, next) => {
 // I : SIGNUP
 router.get("/signup", (req, res) => {
 
+    req.session.redirectUrl = req.get("Referer");
+
     res.render("users/signup.ejs", { hideNavbarMenu: true });
 
 })
@@ -69,6 +71,8 @@ router.post("/signup", saveRedirectUrl, validateSignUpForm, async (req, res) => 
 // II : LOGIN
 router.get("/login", (req, res) => {
 
+    req.session.redirectUrl = req.get("Referer");
+
     res.render("users/login.ejs", { hideNavbarMenu: true });
 })
 
@@ -83,6 +87,8 @@ router.post("/login",
 
         req.flash("success", UserToasts.loggedIn);
         const redirectUrl = res.locals.redirectUrl || "/listings";
+        delete res.locals.redirectUrl; // automatically delete as it persists only for one req res cycle 
+
         res.redirect(redirectUrl);
     }
 )
