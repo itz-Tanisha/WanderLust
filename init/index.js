@@ -16,12 +16,14 @@ connectToDB()
 
 
 const Listing = require(path.join(__dirname, "../models/listing.js"));
+const Review = require(path.join(__dirname, "../models/review.js"));
 
 const { data } = require(path.join(__dirname, "./data.js"));
 
 const initDB = async() => {
     
     await Listing.deleteMany({});
+    await Review.deleteMany({});
     const dataWithOwner = data.map(listing => ({...listing, owner : "693c23620e16024cea8db072"}));
     await Listing.insertMany(dataWithOwner);
 
