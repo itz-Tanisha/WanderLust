@@ -49,8 +49,9 @@
                         </div>
                         
                     </div>
-
-                    <%- include("../includes/Reviews.ejs", { listingId: _id }) %>
+                    <% if(currentUser) { %> 
+                        <%- include("../includes/Reviews.ejs", { listingId: _id }) %>
+                    <% } %>
 
                     <%- include("../includes/ReviewsList.ejs", { reviews : reviews.reverse(), listingId : _id }) %>
 
