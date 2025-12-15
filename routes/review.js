@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams : true });
 const path = require("path");
-const { validateReviews, isLoggedIn } = require("../middleware");
+const { validateReviews, isLoggedIn, isReviewOwner } = require("../middleware");
 
 const Review = require(path.join("../models/review.js"))
 const Listing = require(path.join("../models/listing.js"));
@@ -16,7 +16,7 @@ router.post("/", isLoggedIn, validateReviews, async (req, res) => {
 
     const { comment, rating } = req.body;
 
-    const newReview = await Review.insertOne({ comment, rating, owner : req.user._id });
+    const newReview = await Review.insertOne({ comment, rating, author : req.user._id });
 
     const updatedListing = await Listing.findByIdAndUpdate(id, { $push: { reviews: newReview } }, { new: true, runValidators: true });
 
@@ -28,7 +28,7 @@ router.post("/", isLoggedIn, validateReviews, async (req, res) => {
 
 // VI : Delete Reviews Route 
 
-router.delete("/:reviewId", isLoggedIn, async (req, res) => {
+router.delete("/:reviewId", isLoggedIn, isReviewOwner, async (req, res) => {
 
     const { id, reviewId } = req.params;
 

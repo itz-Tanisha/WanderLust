@@ -15,7 +15,9 @@ const ListingToasts = {
 
 const ReviewToast = {
     added: "Review dropped! Thanks for the wisdom.",
-    deleted: "“Review removed… like it never happened."
+    deleted: "“Review removed… like it never happened.",
+    notFound : "Review not found",
+    notAuthorToast : "You don't have enough permissions to delete this review !",
 }
 
 const UserToasts = {

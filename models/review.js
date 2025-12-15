@@ -12,7 +12,7 @@ const reviewSchema = mongoose.Schema({
         max: 5
     },
 
-    owner : {
+    author : {
         ref: 'User',
         type : mongoose.Schema.Types.ObjectId,
     },

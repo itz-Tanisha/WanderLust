@@ -69,7 +69,12 @@ router.get("/:id", async (req, res) => {
 
     let { id } = req.params;
 
-    const data = await Listing.findById(id).populate("reviews").populate("owner");
+    const data = await Listing.findById(id).populate("owner").populate({
+        path : "reviews",
+        populate : {
+            path : "author"
+        }
+    });
 
     if (!data) {
         req.flash("error", ListingToasts.listingNotFound)

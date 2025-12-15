@@ -1,5 +1,6 @@
-const { UserToasts, ListingToasts } = require("./config/toastMsgs");
+const { UserToasts, ListingToasts, ReviewToast } = require("./config/toastMsgs");
 const Listing = require('./models/listing');
+const Review = require('./models/review');
 const CustomExpressError = require("./utils/ExpressError");
 const { listingSchemaValidator, reviewSchemaValidator } = require("./utils/Schema");
 
@@ -84,4 +85,26 @@ module.exports.isListingOwner = async (req, res, next) => {
     }
 
     next();
+}
+
+module.exports.isReviewOwner = async ( req, res, next) => {
+
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+
+    if(!review){
+        req.flash("error", ReviewToast.notFound);
+        res.redirect(`/listings/${id}`);
+
+        return;
+    }
+
+    if(!review.author.equals(req.user._id)){
+        req.flash("error", ReviewToast.notAuthorToast);
+        res.redirect(`/listings/${id}`);
+        return;
+    }
+
+    next();
+    
 }
