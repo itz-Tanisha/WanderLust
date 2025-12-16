@@ -23,23 +23,22 @@ module.exports.createNewListingForm = (req, res) => {
 
 module.exports.createNewListing = async (req, res) => {
 
-    const { title, description, price, location, country, imageUrl } = req.body;
+    const { title, description, price, location, country } = req.body;
 
-    let finalImageUrl = imageUrl;
+    let imageUrl = "";
 
     // If user uploads file upload it to cloudinary 
-
     if (req.file) {
         // const result = await uploadToCloudinary(req.file.buffer);
         // finalImageUrl = result.secure_url;
-        finalImageUrl = "https://res.cloudinary.com/dymt5cvoc/image/upload/v1763280098/wanderlust/s1wziutvubnquwgp0qus.jpg"
+        imageUrl = "https://res.cloudinary.com/dymt5cvoc/image/upload/v1763280098/wanderlust/s1wziutvubnquwgp0qus.jpg"
     }
 
 
     const newListing = await Listing.insertOne({
         title, description, price, location, country,
         image: {
-            url: finalImageUrl
+            url: imageUrl
         },
         owner: req.user._id
     });
@@ -94,23 +93,12 @@ module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
     const data = req.body;
 
-
-    if (data?.imageUrl.trim()) {
-
-        data.image = {
-            url: data.imageUrl
-        }
-
-    }
-    else if (req.file) {
+    if (req.file) {
         // const result = await uploadToCloudinary(req.file.buffer);
         // data.image = {
         //     url : result.secure_url;
         // }
     }
-
-    delete data.imageUrl;
-
 
     const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
 
