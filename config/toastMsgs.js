@@ -28,7 +28,7 @@ const UserToasts = {
 }
 
 const ErrorToasts = {
-    invalidFileType : "Invalid file type. Please upload JPG, PNG or WEBP images only.",
+    invalidFileType : "Invalid file type. Please upload JPG, JPEG or PNG images only.",
 }
 
 module.exports = {
