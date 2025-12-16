@@ -1,14 +1,14 @@
 // New Listing and update listing validation
 
+
 $(function () {
 
-    $.validator.addMethod("requireOneImage", function (value, element) {
+    $.validator.addMethod("requireImage", function (value, element) {
 
         const file = $("#imageFile").val().trim();
-        const url = $("#imageUrl").val().trim();
-        return file !== "" || url !== "";
+        return file !== "";
 
-    }, "Upload an image OR provide a URL.");
+    }, "Please upload a property image.");
 
     $("#listing-form").validate({
         rules: {
@@ -17,8 +17,7 @@ $(function () {
             price: { required: true, number: true, min: 1 },
             location: { required: true, minlength: 2 },
             country: { required: true, minlength: 2 },
-            imageFile: {},
-            imageUrl: { requireOneImage: true, url: true }
+            imageFile: { requireImage: true },
         },
         messages: {
             title: {
@@ -42,24 +41,15 @@ $(function () {
                 required: "Please enter the country.",
                 minlength: "Country must be at least 2 characters."
             },
-            imageUrl: {
-                requireOneImage: "Provide a URL OR upload a file.",
-                url: "Enter a valid URL."
-            }
         },
 
         errorPlacement: function (error, element) {
-            if (element.attr("name") === "imageFile" ||
-                element.attr("name") === "imageUrl") {
-                error.insertAfter("#imageUrl");
-            } else {
                 error.insertAfter(element);
-            }
         }
     });
 
-    $("#imageFile, #imageUrl").on("change keyup", function () {
-        $("#imageUrl").valid();
+    $("#imageFile").on("change keyup", function () {
+        $("#imageFile").valid();
     });
 
 });
@@ -151,29 +141,29 @@ $(function () {
 // Login form validation
 
 $(
-    function() {
+    function () {
 
         $("#login-form").validate({
 
-            rules : {
-                username : { required : true},
-                email : { required : true, email: true},
-                password : { required : true},
+            rules: {
+                username: { required: true },
+                email: { required: true, email: true },
+                password: { required: true },
             },
-            messages : {
-                username : {
-                    required : "Username is required !"
+            messages: {
+                username: {
+                    required: "Username is required !"
                 },
-                email : {
-                    required : "Email is required !",
+                email: {
+                    required: "Email is required !",
                     email: "Please enter a valid email address."
                 },
-                password : {
-                    required : "Password is required !",
+                password: {
+                    required: "Password is required !",
                 }
             },
 
-            errorPlacement : function( error, element) {
+            errorPlacement: function (error, element) {
                 error.insertAfter(element);
             }
         })
@@ -185,35 +175,35 @@ $(
 // Signup form validation
 
 $(
-    function() {
+    function () {
 
         $("#signup-form").validate({
 
-            rules : {
-                username : { required : true},
-                email : { required : true, email: true},
-                password : { 
-                    required : true,
+            rules: {
+                username: { required: true },
+                email: { required: true, email: true },
+                password: {
+                    required: true,
                     minlength: 8,
                     maxlength: 20,
                 },
             },
-            messages : {
-                username : {
-                    required : "Username is required !"
+            messages: {
+                username: {
+                    required: "Username is required !"
                 },
-                email : {
-                    required : "Email is required !",
+                email: {
+                    required: "Email is required !",
                     email: "Please enter a valid email address."
                 },
-                password : {
-                    required : "Password is required !",
+                password: {
+                    required: "Password is required !",
                     minlength: "Password must be at least 8 characters.",
                     maxlength: "Password must not exceed 20 characters.",
                 }
             },
 
-            errorPlacement : function( error, element) {
+            errorPlacement: function (error, element) {
                 error.insertAfter(element);
             }
         })
@@ -224,7 +214,7 @@ $(
 // Toast / Flash Msg Script 
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     const toasts = document.querySelectorAll("[data-toast]");
 
     toasts.forEach(toast => {
