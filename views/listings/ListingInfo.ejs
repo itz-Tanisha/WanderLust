@@ -50,10 +50,10 @@
                         
                     </div>
                     <% if(currentUser && !owner._id.equals(currentUser._id)) { %> 
-                        <%- include("../includes/Reviews.ejs", { listingId: _id }) %>
+                        <%- include("../reviews/Reviews.ejs", { listingId: _id }) %>
                     <% } %>
 
-                    <%- include("../includes/ReviewsList.ejs", { reviews : reviews.reverse(), listingId : _id }) %>
+                    <%- include("../reviews/ReviewsList.ejs", { reviews : reviews.reverse(), listingId : _id }) %>
 
                 </div>
                 <div class="listing-info-right">
