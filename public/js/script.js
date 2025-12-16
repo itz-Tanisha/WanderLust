@@ -54,6 +54,51 @@ $(function () {
 
 });
 
+
+// update form validation 
+$(function () {
+
+
+    $("#update-listing-form").validate({
+        rules: {
+            title: { required: true, minlength: 3 },
+            description: { required: true, minlength: 10 },
+            price: { required: true, number: true, min: 1 },
+            location: { required: true, minlength: 2 },
+            country: { required: true, minlength: 2 },
+        },
+        messages: {
+            title: {
+                required: "Title is required.",
+                minlength: "Title must be at least 3 characters long."
+            },
+            description: {
+                required: "Description is required.",
+                minlength: "Description must be at least 10 characters."
+            },
+            price: {
+                required: "Price is required.",
+                number: "Enter a valid number.",
+                min: "Price must be at least 1."
+            },
+            location: {
+                required: "Please enter the location.",
+                minlength: "Location must be at least 2 characters."
+            },
+            country: {
+                required: "Please enter the country.",
+                minlength: "Country must be at least 2 characters."
+            },
+        },
+
+        errorPlacement: function (error, element) {
+                error.insertAfter(element);
+        }
+    });
+
+});
+
+
 // STARS FUNCTIONALITY JS
 
 const stars = document.querySelectorAll('#starRating i');
