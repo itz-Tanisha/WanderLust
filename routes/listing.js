@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.js")
+const { isLoggedIn, isListingOwner, validateListing, deleteOldImage } = require("../middleware.js")
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
@@ -50,7 +50,7 @@ router.get("/:id", ListingControllers.showListing)
 router
     .route("/:id/edit")
     .get(isLoggedIn, isListingOwner, ListingControllers.updateListingForm)
-    .put(isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, ListingControllers.updateListing)
+    .put(isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, deleteOldImage, ListingControllers.updateListing)
 
 
 // IV : DELETE ROUTE 

@@ -3,6 +3,7 @@ const Listing = require('./models/listing');
 const Review = require('./models/review');
 const CustomExpressError = require("./utils/ExpressError");
 const { listingSchemaValidator, reviewSchemaValidator, SignInLoginFormValidator } = require("./utils/Schema");
+const { v2 : cloudinary } = require("cloudinary");
 
 // SCHEMA VALIDATION MIDDLEWARE 
 
@@ -100,24 +101,41 @@ module.exports.isListingOwner = async (req, res, next) => {
     next();
 }
 
-module.exports.isReviewOwner = async ( req, res, next) => {
+module.exports.isReviewOwner = async (req, res, next) => {
 
     const { id, reviewId } = req.params;
     const review = await Review.findById(reviewId);
 
-    if(!review){
+    if (!review) {
         req.flash("error", ReviewToast.notFound);
         res.redirect(`/listings/${id}`);
 
         return;
     }
 
-    if(!review.author.equals(req.user._id)){
+    if (!review.author.equals(req.user._id)) {
         req.flash("error", ReviewToast.notAuthorToast);
         res.redirect(`/listings/${id}`);
         return;
     }
 
     next();
-    
+
+}
+
+module.exports.deleteOldImage = async (req, res, next) => {
+
+    if (req.file) {
+
+        const { id } = req.params;
+        const existingListing = await Listing.findById(id);
+
+        if(existingListing.image.fileName){
+            const result = await cloudinary.uploader.destroy(existingListing.image.fileName);
+            console.log(result);
+        }
+    }
+
+    next();
+
 }

@@ -2,7 +2,9 @@ const Listing = require("../models/listing.js");
 const path = require("path");
 
 const { ListingToasts } = require(path.join("../config/toastMsgs.js"));
+const { v2 : cloudinary } = require("cloudinary");
 const { uploadToCloudinary } = require("../cloudinary.js");
+const CustomExpressError = require("../utils/ExpressError.js");
 
 
 module.exports.getAllListings = async (req, res) => {
@@ -25,20 +27,17 @@ module.exports.createNewListing = async (req, res) => {
 
     const { title, description, price, location, country } = req.body;
 
-    let imageUrl = "";
-
-    // If user uploads file upload it to cloudinary 
-    if (req.file) {
-        // const result = await uploadToCloudinary(req.file.buffer);
-        // finalImageUrl = result.secure_url;
-        imageUrl = "https://res.cloudinary.com/dymt5cvoc/image/upload/v1763280098/wanderlust/s1wziutvubnquwgp0qus.jpg"
+    if(!req.file){
+        throw new CustomExpressError(400, "Image is required !");
     }
 
+    const result = await uploadToCloudinary(req.file.buffer);
 
     const newListing = await Listing.insertOne({
         title, description, price, location, country,
         image: {
-            url: imageUrl
+            url: result.secure_url,
+            fileName : result.public_id,
         },
         owner: req.user._id
     });
@@ -94,10 +93,11 @@ module.exports.updateListing = async (req, res) => {
     const data = req.body;
 
     if (req.file) {
-        // const result = await uploadToCloudinary(req.file.buffer);
-        // data.image = {
-        //     url : result.secure_url;
-        // }
+        const result = await uploadToCloudinary(req.file.buffer);
+        data.image = {
+            url : result.secure_url,
+            fileName : result.public_id
+        }
     }
 
     const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
@@ -113,6 +113,11 @@ module.exports.deleteListing = async (req, res) => {
     const { id } = req.params;
 
     const deletedListing = await Listing.findByIdAndDelete(id);
+
+    if(deletedListing.image.fileName){
+        const result = await cloudinary.uploader.destroy(deletedListing.image.fileName);
+        console.log(result);
+    }
 
     req.flash("success", ListingToasts.deleted);
 
