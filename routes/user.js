@@ -10,23 +10,26 @@ const UserControllers = require("../controllers/user.js")
 
 
 // I : SIGNUP
-router.get("/signup", UserControllers.getSignUpForm)
-
-router.post("/signup", saveRedirectUrl, validateSignUpLoginForm, UserControllers.signUp)
+router
+    .route("/signup")
+    .get(UserControllers.getSignUpForm)
+    .post(saveRedirectUrl, validateSignUpLoginForm, UserControllers.signUp)
 
 
 // II : LOGIN
-router.get("/login", UserControllers.getLoginForm)
 
-router.post("/login",
-    saveRedirectUrl,
-    validateSignUpLoginForm,
-    passport.authenticate(
-        "local",
-        { failureRedirect: "/login", failureFlash: true }
-    ),
-    UserControllers.login
-)
+router
+    .route("/login")
+    .get(UserControllers.getLoginForm)
+    .post(
+        saveRedirectUrl,
+        validateSignUpLoginForm,
+        passport.authenticate(
+            "local",
+            { failureRedirect: "/login", failureFlash: true }
+        ),
+        UserControllers.login
+    )
 
 // III : LOGOUT
 

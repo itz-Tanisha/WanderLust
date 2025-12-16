@@ -30,9 +30,10 @@ router.get("/:id", ListingControllers.showListing)
 
 // III : UPDATE ROUTE 
 
-router.get("/:id/edit", isLoggedIn, isListingOwner, ListingControllers.updateListingForm)
-
-router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, ListingControllers.updateListing)
+router
+    .route("/:id/edit")
+    .get(isLoggedIn, isListingOwner, ListingControllers.updateListingForm)
+    .put(isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, ListingControllers.updateListing)
 
 
 // IV : DELETE ROUTE 
