@@ -27,8 +27,13 @@ const UserToasts = {
     notLoggedIn : "You must be logged in to create a new listing !"
 }
 
+const ErrorToasts = {
+    invalidFileType : "Invalid file type. Please upload JPG, PNG or WEBP images only.",
+}
+
 module.exports = {
     ListingToasts, 
     ReviewToast,
-    UserToasts
+    UserToasts,
+    ErrorToasts
 }

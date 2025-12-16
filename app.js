@@ -22,6 +22,8 @@ const flash = require("connect-flash")
 const passport = require("passport");
 const LocalStratergy = require("passport-local");
 const User = require("./models/user.js");
+const { ErrorToasts } = require("./config/toastMsgs.js");
+const multer = require("multer");
 
 // A : Express Setup 
 
@@ -115,13 +117,29 @@ app.use("/", userRoutes );
 // })
 
 
-
-// SINCE newer forwards async errors to err middleware we ll just define our middleware 
+// categorized error handlers
 app.use((err, req, res, next) => {
-
+    
     if(err.status === 404){
         res.status(404).render("NotFound.ejs");
     }
+
+    if(err.message === "Invalid File Type !"){
+        req.flash("error", ErrorToasts.invalidFileType);
+        return res.redirect(req.get("Referer"));
+    }
+
+    if(err instanceof multer.MulterError){
+        req.flash("error", err.message);
+        return res.redirect(req.get("Referer"));
+    }
+
+    next(err);
+})
+
+
+// SINCE newer forwards async errors to err middleware we ll just define our middleware 
+app.use((err, req, res, next) => {
 
     const { status = 500, message = "Internal Server Error"} = err;
 
