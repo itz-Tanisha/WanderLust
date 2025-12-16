@@ -50,6 +50,10 @@
                     </i>
                 </div>
 
+                <div class="review-container-date">
+                    <%= review.createdAt.toLocaleDateString("en-IN", { day: "2-digit" , month: "short" , year: "numeric" }) %>
+                </div>
+
             </div>
 
         </div>

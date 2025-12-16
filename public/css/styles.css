@@ -819,3 +819,9 @@ label.error {
 .review-container-comment {
   color: #737373;
 }
+
+.review-container-date {
+  color: #737373;
+  font-size: 12px;
+  margin-left: auto;
+}
