@@ -6,7 +6,7 @@ const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.j
 const multer = require("multer"); // This is a function 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const ListingControllers = require("../controllers/listings.js");
+const ListingControllers = require("../controllers/listing.js");
 
 // ROUTES 
 

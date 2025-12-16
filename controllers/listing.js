@@ -1,4 +1,4 @@
-const Listing = require("../models/listing");
+const Listing = require("../models/listing.js");
 const path = require("path");
 
 const { ListingToasts } = require(path.join("../config/toastMsgs.js"));
