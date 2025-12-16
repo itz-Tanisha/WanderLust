@@ -1,158 +1,43 @@
 const express = require("express");
 const router = express.Router();
-const path = require("path");
-
-const Listing = require(path.join("../models/listing.js"));
-const { ListingToasts } = require(path.join("../config/toastMsgs.js"))
 const { isLoggedIn, isListingOwner, validateListing } = require("../middleware.js")
 
 // Image Upload 
 const multer = require("multer"); // This is a function 
 const upload = multer({ storage: multer.memoryStorage() });
-const { uploadToCloudinary } = require("../cloudinary.js");
 
+const ListingControllers = require("../controllers/listings.js");
 
 // ROUTES 
 
-
 //  I : GET ALL LISTINGS 
 
-router.get("/", async (req, res) => {
-
-    const listings = await Listing.find({});
-
-    res.render("listings/HomePage.ejs", { listings: listings.reverse() });
-
-})
+router.get("/", ListingControllers.getAllListings)
 
 
 // II : CREATE ROUTE 
 
-router.get("/new", isLoggedIn, (req, res) => { // express matches /new as /:id ie anything after listing match that
+// express matches /new as /:id ie anything after listing match that
+router.get("/new", isLoggedIn, ListingControllers.createNewListingForm)
 
-    res.render("listings/NewListing.ejs");
+router.post("/", isLoggedIn, upload.single("imageFile"), validateListing, ListingControllers.createNewListing )
 
-})
-
-
-router.post("/", isLoggedIn, upload.single("imageFile"), validateListing, async (req, res) => {
-
-    const { title, description, price, location, country, imageUrl } = req.body;
-
-    let finalImageUrl = imageUrl;
-
-    // If user uploads file upload it to cloudinary 
-
-    if (req.file) {
-        // const result = await uploadToCloudinary(req.file.buffer);
-        // finalImageUrl = result.secure_url;
-        finalImageUrl = "https://res.cloudinary.com/dymt5cvoc/image/upload/v1763280098/wanderlust/s1wziutvubnquwgp0qus.jpg"
-    }
-
-
-    const newListing = await Listing.insertOne({
-        title, description, price, location, country,
-        image: {
-            url: finalImageUrl
-        },
-        owner : req.user._id
-    });
-
-    req.flash("success", ListingToasts.created);
-    res.redirect("listings");
-
-})
 
 // SHOW ROUTE 
 
-router.get("/:id", async (req, res) => {
-
-    let { id } = req.params;
-
-    const data = await Listing.findById(id).populate("owner").populate({
-        path : "reviews",
-        populate : {
-            path : "author"
-        }
-    });
-
-    if (!data) {
-        req.flash("error", ListingToasts.listingNotFound)
-        res.redirect("/listings");
-        return;
-        // throw new CustomExpressError(404, "No Such Listing Exists")
-    }
-
-    res.render("listings/ListingInfo.ejs", data.toObject()); // Its a document not object
-})
-
+router.get("/:id", ListingControllers.showListing)
 
 
 // III : UPDATE ROUTE 
 
-router.get("/:id/edit", isLoggedIn, isListingOwner, async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isListingOwner, ListingControllers.updateListingForm)
 
-    const { id } = req.params;
-
-    const listingData = await Listing.findById(id);
-
-    if (!listingData) {
-        req.flash("error", ListingToasts.listingNotFound);
-        res.redirect("/listings");
-        return;
-        // throw new CustomExpressError(404, "No Such Listing Exists")
-    }
-
-    res.render("listings/UpdateListing.ejs", listingData.toObject())
-})
-
-
-
-router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, async (req, res) => {
-
-    const { id } = req.params;
-    const data = req.body;
-
-
-    if (data?.imageUrl.trim()) {
-
-        data.image = {
-            url: data.imageUrl
-        }
-
-    }
-    else if (req.file) {
-        // const result = await uploadToCloudinary(req.file.buffer);
-        // data.image = {
-        //     url : result.secure_url;
-        // }
-    }
-
-    delete data.imageUrl;
-
-
-    const updatedListing = await Listing.findByIdAndUpdate(id, data, { runValidators: true, new: true });
-
-    req.flash("success", ListingToasts.updated);
-    res.redirect(`/listings/${id}`);
-
-})
-
+router.put("/:id/edit", isLoggedIn, isListingOwner, upload.single("imageFile"), validateListing, ListingControllers.updateListing)
 
 
 // IV : DELETE ROUTE 
 
-router.delete("/:id", isLoggedIn, isListingOwner, async (req, res) => {
-
-    const { id } = req.params;
-
-    const deletedListing = await Listing.findByIdAndDelete(id);
-
-    req.flash("success", ListingToasts.deleted);
-
-    res.redirect("/listings")
-
-})
+router.delete("/:id", isLoggedIn, isListingOwner, ListingControllers.deleteListing)
 
 
 module.exports = router;
