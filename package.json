@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "22.19.0"
+  },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "cloudinary": "^2.8.0",
