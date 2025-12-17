@@ -95,8 +95,7 @@ connectToDB()
 // C : Index Route 
 
 app.get("/", (req, res) => {
-    res.send("Working")
-    // res.redirect("/listings")
+    res.redirect("/listings")
 })
 
 // ROUTES 
