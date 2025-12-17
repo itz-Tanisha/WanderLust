@@ -11,13 +11,15 @@ require("dotenv").config();
 
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
+const ATLAS_DB_URL = process.env.ATLAS_DB_URL;
 
 const listingsRoutes = require("./routes/listing.js")
 const reviewsRoutes = require("./routes/review.js")
 const userRoutes = require("./routes/user.js")
 
 const session = require("express-session");
-const flash = require("connect-flash")
+const flash = require("connect-flash");
+const { MongoStore } = require("connect-mongo");
 
 const passport = require("passport");
 const LocalStratergy = require("passport-local");
@@ -44,9 +46,19 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 // Session and Flash setup
+const store = MongoStore.create({ 
+    mongoUrl: ATLAS_DB_URL,
+    touchAfter : 24 * 3600, // If no changes are made update session : 24 hrs in seconds 
+    crypto : {
+        secret : process.env.EXPRESS_SESSION_SECRET
+    }
+});
+
+store.on("error", () => console.log("ERROR IN MONGO SESSION STORE", err))
 
 const SessionOptions = {
     secret : process.env.EXPRESS_SESSION_SECRET,
+    store,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -84,7 +96,7 @@ app.use((req, res, next) => {
 // B : Mongoose Connection 
 
 async function connectToDB() {
-    await mongoose.connect(MONGO_URL)
+    await mongoose.connect(ATLAS_DB_URL)
 }
 
 connectToDB()
