@@ -10,8 +10,7 @@ const CustomExpressError = require("./utils/ExpressError.js");
 require("dotenv").config();
 
 const PORT = process.env.PORT;
-const MONGO_URL = process.env.MONGO_URL;
-const ATLAS_DB_URL = process.env.ATLAS_DB_URL;
+const ATLAS_DB_URL_PROD = process.env.ATLAS_DB_URL_PROD;
 
 const listingsRoutes = require("./routes/listing.js")
 const reviewsRoutes = require("./routes/review.js")
@@ -96,7 +95,7 @@ app.use((req, res, next) => {
 // B : Mongoose Connection 
 
 async function connectToDB() {
-    await mongoose.connect(ATLAS_DB_URL)
+    await mongoose.connect(ATLAS_DB_URL_PROD)
 }
 
 connectToDB()
