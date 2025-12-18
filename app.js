@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // Session and Flash setup
 const store = MongoStore.create({ 
-    mongoUrl: ATLAS_DB_URL,
+    mongoUrl: ATLAS_DB_URL_PROD,
     touchAfter : 24 * 3600, // If no changes are made update session : 24 hrs in seconds 
     crypto : {
         secret : process.env.EXPRESS_SESSION_SECRET
